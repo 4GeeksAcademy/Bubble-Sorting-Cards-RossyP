@@ -20,7 +20,7 @@ const bodyNumber = document.getElementById("number-body");
 const footerSymbol = document.getElementById("symbol-footer");
 
 let symbols = ["♥", "♠", "♣", "♦"];
-let numbers = ["As", 2, 3, 4, 5, 6, 7, 8, 9, 10, "J", "Q", "K"];
+let numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
 
 function random(arr) {
   let randomNum = Math.floor(Math.random() * arr.length);
@@ -45,7 +45,20 @@ buttonDraw.addEventListener("click", function() {
       list.push(cardRandom);
 
       const isRedSymbol = cardRandom[0] === "♥" || cardRandom[0] === "♦";
-      const isAsNumber = cardRandom[1] === "As";
+      let cardNumber;
+      const isAsNumber = cardRandom[1] === 1;
+
+      if (cardRandom[1] === 1) {
+        cardNumber = cardRandom[0];
+      } else if (cardRandom[1] === 11) {
+        cardNumber = "J";
+      } else if (cardRandom[1] === 12) {
+        cardNumber = "Q";
+      } else if (cardRandom[1] === 13) {
+        cardNumber = "K";
+      } else {
+        cardNumber = cardRandom[1];
+      }
 
       let newCard = document.createElement("div");
       newCard.className =
@@ -60,7 +73,7 @@ buttonDraw.addEventListener("click", function() {
         <div class="card-body d-flex justify-content-center align-items-center">
           <h1 class="number-body" style="color: ${
             isRedSymbol ? "red" : "black"
-          }">${isAsNumber ? cardRandom[0] : cardRandom[1]}</h1>
+          }">${cardNumber}</h1>
         </div>
         <div class="card-footer d-flex justify-content-end align-items-center bg-transparent pb-2 pe-1">
           <h2 class="symbol-footer" style="color: ${
@@ -75,3 +88,55 @@ buttonDraw.addEventListener("click", function() {
 
   console.log(list);
 });
+
+buttonSort.addEventListener("click", sorting);
+
+function sorting() {
+  const bubbleSort = arr => {
+    let wall = arr.length - 1; //iniciamos el wall o muro al final del array
+    while (wall > 0) {
+      let index = 0;
+      while (index < wall) {
+        //comparar las posiciones adyacentes, si la correcta es más grande, tenemos que intercambiar
+        if (arr[index][1] > arr[index + 1][1]) {
+          let aux = arr[index];
+          arr[index] = arr[index + 1];
+          arr[index + 1] = aux;
+          cardsArrays(arr);
+        }
+        index++;
+      }
+      wall--; //disminuir la pared para optimizar
+    }
+    return arr;
+  };
+
+  bubbleSort(list);
+}
+
+function cardsArrays(arr) {
+  //let arraySort = sorting();
+  const boxCards = document.getElementById("boxCards");
+  let contador = 0;
+  arr.forEach(cardElement => {
+    let newCard = document.createElement("div");
+    newCard.className =
+      "card d-flex p-0 m-0 justify-content-start align-items-center";
+
+    newCard.innerHTML = `
+      <p>${contador}<p>
+        <div class="card-header d-flex justify-content-start align-items-center bg-transparent pt-3 ps-1">
+          <h2 class="symbol-header">${cardElement[0]}</h2>
+        </div>
+        <div class="card-body d-flex justify-content-center align-items-center">
+          <h1 class="number-body">${cardElement[1]}</h1>
+        </div>
+        <div class="card-footer d-flex justify-content-end align-items-center bg-transparent pb-2 pe-1">
+          <h2 class="symbol-footer" >${cardElement[0]}</h2>
+        </div>
+      `;
+
+    boxCards.appendChild(newCard);
+    contador++;
+  });
+}
