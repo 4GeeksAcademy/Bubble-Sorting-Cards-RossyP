@@ -15,9 +15,22 @@ body {
   border-top: none;
   border-bottom: none;
 }
-/* #symbol-header,
-#symbol-footer {
-  font-size: 1.5rem;
-  height: 100%;
-  width: 100px;
-} */
+
+.serie-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.boxCards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+}
+
+.numero-serie {
+  margin-right: 20px;
+  font-size: 2rem;
+  font-weight: bold;
+  white-space: nowrap;
+}
